@@ -146,3 +146,80 @@ Berikut rangkuman langkah-langkah membuat login di Laravel menggunakan Bootstrap
 - Pastikan XAMPP atau server web sejenis berjalan untuk mendukung server PHP dan MySQL.
 
 Dengan mengikuti langkah-langkah ini, Anda seharusnya dapat membuat proyek Laravel dengan sistem otentikasi menggunakan Bootstrap dan Vite, serta dapat mengakses halaman login dengan sukses.
+
+
+
+
+Untuk mengecek sesi login di Laravel dan mengarahkan pengguna ke halaman login jika mereka tidak masuk, Anda dapat menggunakan middleware dan fungsi bawaan Laravel yang disebut `auth`. Berikut adalah langkah-langkahnya:
+
+### 1. Middleware:
+
+Buat middleware baru untuk mengecek apakah pengguna masuk atau tidak. Jalankan perintah artisan berikut:
+
+```bash
+php artisan make:middleware CheckLogin
+```
+
+Edit file yang dibuat di `app/Http/Middleware/CheckLogin.php` dan tambahkan logika berikut di dalam method `handle`:
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Support\Facades\Auth;
+
+class CheckLogin
+{
+    public function handle($request, Closure $next)
+    {
+        if (Auth::check()) {
+            // Pengguna masuk, lanjutkan ke halaman yang diminta
+            return $next($request);
+        }
+
+        // Pengguna tidak masuk, arahkan ke halaman login
+        return redirect('/login');
+    }
+}
+```
+
+### 2. Daftarkan Middleware:
+
+Tambahkan middleware yang baru dibuat ke dalam file `app/Http/Kernel.php`. Temukan properti `$routeMiddleware` dan tambahkan baris berikut:
+
+```php
+'checkLogin' => \App\Http\Middleware\CheckLogin::class,
+```
+
+### 3. Terapkan Middleware pada Route atau Controller:
+
+#### a. Pada Route:
+
+Gunakan middleware pada route yang ingin Anda lindungi di file `web.php`:
+
+```php
+Route::middleware(['checkLogin'])->group(function () {
+    // Definisikan rute yang perlu dilindungi di sini
+    Route::get('/dashboard', 'DashboardController@index');
+});
+```
+
+#### b. Pada Controller:
+
+Anda juga dapat menggunakan middleware pada controller. Tambahkan baris berikut di dalam konstruktor controller:
+
+```php
+public function __construct()
+{
+    $this->middleware('checkLogin');
+}
+```
+
+### Catatan:
+
+- Pastikan bahwa route atau controller yang dilindungi memiliki penanganan login yang sesuai.
+- Sesuaikan alamat `/login` sesuai dengan route login aplikasi Anda.
+
+Dengan langkah-langkah ini, pengguna akan diarahkan ke halaman login jika mereka tidak masuk saat mencoba mengakses halaman yang dilindungi. Anda dapat mengonfigurasi middleware ini sesuai kebutuhan Anda.
