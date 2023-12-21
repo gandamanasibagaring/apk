@@ -113,3 +113,36 @@ Itulah dasar-dasar penerapan Laravel Jetstream dalam pembuatan website. Pastikan
 
 
 https://chat.openai.com/c/7f5dcd10-e054-4844-88e1-910770d598fb
+
+Berikut rangkuman langkah-langkah membuat login di Laravel menggunakan Bootstrap dan Vite:
+
+### Persiapan Awal:
+1. Pastikan sudah menginstal XAMPP atau server web lainnya yang mendukung PHP dan MySQL.
+2. Instal Composer: https://getcomposer.org/download/
+3. Instal Laravel menggunakan Composer: `composer create-project --prefer-dist laravel/laravel nama-proyek`
+4. Pindah ke direktori proyek: `cd nama-proyek`
+5. Instal Node.js: https://nodejs.org/
+6. Instal Laravel Mix: `npm install`
+
+### Generate Authentication Scaffolding:
+7. Jalankan perintah artisan untuk menghasilkan fitur otentikasi: `php artisan ui bootstrap --auth`
+
+### Instal Dependensi Front-End:
+8. Instal dependensi JavaScript dengan npm: `npm install`
+9. Kompilasi sumber daya front-end: `npm run dev`
+
+### Migrate Database:
+10. Persiapkan dan konfigurasi database di file `.env`
+11. Migrate tabel-tabel yang diperlukan: `php artisan migrate`
+
+### Jalankan Proyek:
+12. Jalankan server Laravel: `php artisan serve`
+
+### Akses Halaman Login:
+13. Buka browser dan akses halaman login di http://localhost:8000 atau sesuai port yang dijalankan oleh server Laravel.
+
+### Catatan Penting:
+- Proses `npm run dev` perlu dijalankan setiap kali ada perubahan pada sumber daya front-end.
+- Pastikan XAMPP atau server web sejenis berjalan untuk mendukung server PHP dan MySQL.
+
+Dengan mengikuti langkah-langkah ini, Anda seharusnya dapat membuat proyek Laravel dengan sistem otentikasi menggunakan Bootstrap dan Vite, serta dapat mengakses halaman login dengan sukses.
